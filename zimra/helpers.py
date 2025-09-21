@@ -114,7 +114,7 @@ def create_excel_registration_form(data):
     workbook.save(excel_file)
     excel_file.seek(0)
 
-    excel_content = ContentFile(excel_file.read(), name=f'{data['taxpayer_name']} - {data['taxpayer_tin_number']} - Registration Form.xlsx')
+    excel_content = ContentFile(excel_file.read(), name=f"{data['taxpayer_name']} - {data['taxpayer_tin_number']} - Registration Form.xlsx")
     return excel_content
 
 def send_registration_form(excel_registration_form, zimra_email, client_email):
