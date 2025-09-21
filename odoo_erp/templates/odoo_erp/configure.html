@@ -1,0 +1,77 @@
+{% extends "app/main.html" %}
+
+{% block main %}
+<div class="min-h-screen py-12 px-6 bg-base-200 flex justify-center" x-data="{ errorDismissed: false }">
+    <div class="w-full max-w-2xl bg-base-100 rounded-2xl shadow-lg p-10 space-y-8">
+
+        <!-- Header -->
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+                {{ user.get_full_name }}
+            </h1>
+            <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm md:text-base">
+                Enter your Odoo credentials
+            </p>
+        </div>
+
+        <!-- Error Message -->
+        {% if messages %}
+        <div class="alert alert-error" x-show="!errorDismissed">
+            <svg @click="errorDismissed = true" xmlns="http://www.w3.org/2000/svg"
+                 class="stroke-current shrink-0 h-6 w-6 cursor-pointer" fill="none"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                  </span>
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form method="post" class="space-y-6" x-data="{ loading: false }" @submit="loading = true">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-medium">{{ field.label }}</span>
+                </label>
+                {% if field.errors %}
+                <p class="text-error text-sm mb-1">{{ field.errors }}</p>
+                {% endif %}
+                {{ field.as_widget|safe }}
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const input = document.getElementsByName("{{ field.name }}")[0];
+                        if (input) {
+                            input.classList.add("input", "input-bordered", "w-full");
+                            if (!input.placeholder) {
+                                input.placeholder = "{{ field.label }}";
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            {% endfor %}
+
+            <!-- Submit Button -->
+            <div class="text-right pt-4 border-t">
+                <button type="submit" class="btn btn-primary" :disabled="loading">
+                    <template x-if="!loading">
+                        <span><i class="fa fa-link mr-2"></i> Connect</span>
+                    </template>
+                    <template x-if="loading">
+                        <span class="flex items-center gap-2">
+                            <span class="loading loading-spinner loading-sm"></span> Connecting...
+                        </span>
+                    </template>
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

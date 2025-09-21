@@ -1,0 +1,83 @@
+{% extends "app/main.html" %}
+{% load socialaccount %}
+
+{% block main %}
+    <div class="min-h-screen flex items-center justify-center bg-base-200 px-4">
+        <div class="w-full max-w-md bg-base-100 rounded-2xl shadow-xl p-8 space-y-6">
+
+             <!-- Branding -->
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-primary">Sign up to Taxman</h1>
+                <p class="text-sm text-base-content/70">Seamless Virtual Fiscalization for ZIMRA & ZRA</p>
+            </div>
+
+            <!-- Signup Form -->
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold">Organisation</span>
+                    </label>
+                    <input type="text" name="organisation_name" placeholder="e.g. Econet Wireless"
+                           class="input input-bordered input-lg w-full" required>
+                    {% if user_form.organisation_name.errors %}
+                        <p class="text-error text-sm mt-1">{{ user_form.organisation_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold">Email</span>
+                    </label>
+                    <input type="email" name="email" placeholder="you@example.com"
+                           class="input input-bordered input-lg w-full" required>
+                    {% if user_form.email.errors %}
+                        <p class="text-error text-sm mt-1">{{ user_form.email.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold">Password</span>
+                    </label>
+                    <input type="password" name="password1" placeholder="Create a strong password"
+                           class="input input-bordered input-lg w-full" required>
+                    {% if user_form.password1.errors %}
+                        <p class="text-error text-sm mt-1">{{ user_form.password1.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold">Confirm Password</span>
+                    </label>
+                    <input type="password" name="password2" placeholder="Re-enter your password"
+                           class="input input-bordered input-lg w-full" required>
+                    {% if user_form.password2.errors %}
+                        <p class="text-error text-sm mt-1">{{ user_form.password2.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-full">Register</button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">OR</div>
+
+            <!-- Google Signup -->
+            <a href="{% provider_login_url 'google' %}?next=/dashboard"
+               class="btn btn-outline btn-lg w-full flex items-center justify-center gap-2">
+                <img src="https://cdn.simpleicons.org/google" alt="Google Icon" width="20" height="20"/>
+                Sign up with Google
+            </a>
+
+            <!-- Login Link -->
+            <p class="text-center text-sm text-base-content/70">
+                Already have an account?
+                <a href="/login" class="text-primary font-semibold hover:underline">Login instead</a>
+            </p>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+[
+  {
+    "model": "app.taxprovider",
+    "pk": 1,
+    "fields": {
+      "name": "ZIMRA",
+      "country": "ZW"
+    }
+  },
+  {
+    "model": "app.taxprovider",
+    "pk": 2,
+    "fields": {
+      "name": "ZRA",
+      "country": "ZM"
+    }
+  }
+]

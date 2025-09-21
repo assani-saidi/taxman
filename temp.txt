@@ -1,0 +1,46 @@
+ODOO_API_KEY=d3f079e6b66fb59372067eeca11192bdbd7640d6
+ODOO_API_KEY_ZIMAR_TEST_31=e9fd3d9b032b52f72030926569a61af4f68bfc66
+ODOO_API_KEY_2=d3f079e6b66fb59372067eeca11192bdbd7640d6
+ODOO_API_KEY_ZIMAR_TEST_2=f435c9921183a0409a6d10875c5bf8ba11e5b01b
+
+
+
+
+import openpyxl
+from django.core.files.base import ContentFile
+from io import BytesIO
+from your_app.models import ZimraConfig, Organisation, ZimraConnector
+
+def generate_and_save_excel():
+    # Create a new workbook and a sheet
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+
+    # Add some data to the sheet
+    sheet['A1'] = 'Header 1'
+    sheet['B1'] = 'Header 2'
+    sheet['A2'] = 'Data 1'
+    sheet['B2'] = 'Data 2'
+
+    # Save the workbook to a BytesIO object
+    excel_file = BytesIO()
+    workbook.save(excel_file)
+    excel_file.seek(0)  # Reset the file pointer to the beginning
+
+    # Convert the BytesIO object to a Django ContentFile
+    excel_content = ContentFile(excel_file.read(), name='generated_file.xlsx')
+
+    # Get instances of Organisation and ZimraConnector
+    organisation_instance = Organisation.objects.get(id=1)
+    connector_instance = ZimraConnector.objects.get(id=1)
+
+    # Create a new ZimraConfig instance and assign the generated Excel file to it
+    zimra_config_instance = ZimraConfig(
+        organisation=organisation_instance,
+        connector=connector_instance,
+        excel_registration_form=excel_content
+    )
+    zimra_config_instance.save()
+
+# Call the function to generate and save the Excel file
+generate_and_save_excel()

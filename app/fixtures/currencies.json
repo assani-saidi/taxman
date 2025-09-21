@@ -1,0 +1,29 @@
+[
+  {
+    "model": "app.taxcurrencies",
+    "pk": 1,
+    "fields": {
+      "name": "United States Dollar",
+      "symbol": "USD",
+      "country": "US"
+    }
+  },
+  {
+    "model": "app.taxcurrencies",
+    "pk": 2,
+    "fields": {
+      "name": "Zambian Kwacha",
+      "symbol": "KW",
+      "country": "ZM"
+    }
+  },
+  {
+    "model": "app.taxcurrencies",
+    "pk": 3,
+    "fields": {
+      "name": "Zimbabwean Gold",
+      "symbol": "ZIG",
+      "country": "ZW"
+    }
+  }
+]

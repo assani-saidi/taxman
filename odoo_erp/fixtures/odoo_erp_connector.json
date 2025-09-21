@@ -1,0 +1,9 @@
+[
+  {
+    "model": "odoo_erp.odooconnector",
+    "pk": 1,
+    "fields": {
+      "name": "odoo"
+    }
+  }
+]

@@ -1,0 +1,4 @@
+Hi {{ user.email }},
+Please confirm your email using the link below:
+
+{{ activate_url }}

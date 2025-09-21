@@ -1,0 +1,71 @@
+{% extends "app/main.html" %}
+{% load socialaccount %}
+
+{% block main %}
+    <div class="min-h-screen flex items-center justify-center bg-base-200 px-4" x-data="{ errorDismissed: false }">
+        <div class="w-full max-w-md bg-base-100 rounded-2xl shadow-xl p-8 space-y-6">
+
+            <!-- Branding -->
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-primary">Sign in to Taxman</h1>
+                <p class="text-sm text-base-content/70">Seamless Virtual Fiscalization for ZIMRA & ZRA</p>
+            </div>
+
+            <!-- Error Message -->
+            {% if messages %}
+                <div class="alert alert-error" x-show="!errorDismissed">
+                    <svg @click="errorDismissed = true" xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6 cursor-pointer" fill="none"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    <span>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                  </span>
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold">Email</span>
+                    </label>
+                    <input type="email" name="email" class="input input-bordered w-full" placeholder="you@example.com"
+                           required/>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold">Password</span>
+                    </label>
+                    <input type="password" name="password" class="input input-bordered w-full" placeholder="••••••••"
+                           required/>
+                </div>
+
+                <button class="btn btn-primary w-full">Login</button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">OR</div>
+
+            <!-- Google Login -->
+            <a href="{% provider_login_url 'google' %}?next=/dashboard"
+               class="btn btn-outline w-full flex items-center justify-center gap-2">
+                <img src="https://cdn.simpleicons.org/google" alt="Google Icon" width="20" height="20"/>
+                Continue with Google
+            </a>
+
+            <!-- Register Link -->
+            <p class="text-center text-sm text-base-content/70">
+                Don't have an account?
+                <a href="/register" class="text-primary font-semibold hover:underline">Register instead</a>
+            </p>
+
+        </div>
+    </div>
+{% endblock %}

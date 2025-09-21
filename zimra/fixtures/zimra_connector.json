@@ -1,0 +1,10 @@
+[
+  {
+    "model": "zimra.zimraconnector",
+    "pk": 1,
+    "fields": {
+      "name": "zimra",
+      "country": "ZW"
+    }
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "model": "app.customer",
+    "pk": 1,
+    "fields": {
+      "name": "MyCustomer",
+      "tax_id": "00000000"
+    }
+  }
+]

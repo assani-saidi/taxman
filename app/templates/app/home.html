@@ -1,0 +1,104 @@
+{% extends "app/main.html" %}
+{% load static %}
+
+{% block main %}
+
+    <main class="flex-grow flex items-center bg-base-100 dark:bg-base-300 text-base-content transition-colors duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4">
+                Seamless Virtual Fiscalization
+            </h2>
+            <h3 class="text-2xl md:text-3xl font-semibold mb-6">
+                For ZIMRA & ZRA Registered Businesses
+            </h3>
+            <p class="text-lg max-w-2xl mx-auto mb-10 text-base-content/80">
+                TaxMan is a modern Fiscal Data Management System (FDMS) platform that enables tax-registered businesses
+                to integrate and fiscalize transactions in real time with ZIMRA (Zimbabwe Revenue Authority) and ZRA
+                (Zambia Revenue Authority). Whether you're using QuickBooks, Odoo, Sage, ZOHO, or Excel — we’ve got you
+                covered.
+            </p>
+
+            <div class="join join-vertical sm:join-horizontal gap-4 justify-center">
+                <a href="{% url 'login' %}" class="btn btn-primary join-item text-lg px-8">
+                    Start Fiscalizing
+                </a>
+                <a href="{% url 'register' %}"
+                   class="btn btn-outline join-item text-lg px-8 text-indigo-600 dark:text-indigo-400">
+                    Create Account
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Integration Section -->
+    <section class="bg-base-200 dark:bg-base-100 py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-3xl font-bold mb-6">Effortless Integration with Leading Software</h3>
+            <p class="mb-10 text-base-content/80 max-w-3xl mx-auto">
+                TaxMan supports direct integration with popular ERP and accounting platforms. Fiscalize from within your
+                existing systems with minimal setup.
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center justify-center">
+                <img src="https://cdn.worldvectorlogo.com/logos/quickbooks.svg" alt="QuickBooks" class="h-12 mx-auto">
+                <img src="https://cdn.worldvectorlogo.com/logos/odoo.svg" alt="Odoo" class="h-12 mx-auto">
+                <img src="https://cdn.worldvectorlogo.com/logos/sage-2.svg" alt="Sage" class="h-12 mx-auto">
+                <img src="https://cdn.worldvectorlogo.com/logos/zoho.svg" alt="Zoho" class="h-10 mx-auto">
+                <img src="https://cdn.worldvectorlogo.com/logos/microsoft-excel-2013.svg" alt="Excel"
+                     class="h-10 mx-auto">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="bg-base-100 dark:bg-base-200 py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="card bg-base-200 dark:bg-base-100 shadow-xl">
+                    <div class="card-body items-center text-center">
+                        <i class="fa fa-refresh fa-3x text-primary mb-4"></i>
+                        <h2 class="card-title">Real-Time Transaction Sync</h2>
+                        <p class="text-base-content/80 text-sm">
+                            Automatically send and fiscalize invoices and transactions as they happen.
+                        </p>
+                    </div>
+                </div>
+                <div class="card bg-base-200 dark:bg-base-100 shadow-xl">
+                    <div class="card-body items-center text-center">
+                        <i class="fa fa-plug fa-3x text-primary mb-4"></i>
+                        <h2 class="card-title">Easy Integration</h2>
+                        <p class="text-base-content/80 text-sm">
+                            Plug into your existing software and start fiscalizing without changing workflows.
+                        </p>
+                    </div>
+                </div>
+                <div class="card bg-base-200 dark:bg-base-100 shadow-xl">
+                    <div class="card-body items-center text-center">
+                        <i class="fa fa-lock fa-3x text-primary mb-4"></i>
+                        <h2 class="card-title">Secure by Design</h2>
+                        <p class="text-base-content/80 text-sm">
+                            Built with enterprise-grade encryption and compliance for both ZIMRA and ZRA.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FDMS Explained Section -->
+    <section class="bg-base-200 dark:bg-base-300 py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-3xl font-bold mb-6">What is an FDMS?</h3>
+            <p class="mb-10 text-base-content/80 max-w-3xl mx-auto">
+                A Fiscal Data Management System (FDMS) is an approved software platform that acts as a virtual fiscal
+                device. It connects your software (POS, ERP, accounting) with the tax authority systems (ZIMRA, ZRA) to
+                automatically validate and submit transaction data in real time.
+            </p>
+            <div class="flex justify-center">
+                <img src="{% static 'fdms.png' %}" alt="FDMS Diagram"
+                     class="max-w-md w-full rounded-lg shadow-md">
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

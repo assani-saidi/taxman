@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" x-data="themeSwitcher" x-init="init()" :class="{ 'dark': dark }">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{% static 'taxman/output.css' %}" rel="stylesheet" type="text/css"/>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'taxman/font-awesome-4.7.0/css/font-awesome.css' %}"
+    />
+    <script src="{% static 'taxman/alpine.min.js' %}" defer></script>
+    <title>TaxMan</title>
+</head>
+<body>
+
+<nav class="navbar bg-base-100 shadow-sm sticky bg-base-100/70 backdrop-blur top-0 z-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+            <a href="{% url 'home' %}"
+               class="btn btn-ghost normal-case text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                TaxMan
+            </a>
+        </div>
+
+        <!-- Links + Dark Mode Toggle -->
+        <div class="flex items-center space-x-4">
+
+            <!-- Theme Toggle always visible -->
+            <button @click="dark = !dark" class="btn btn-ghost btn-circle" aria-label="Toggle dark mode">
+                <i class="fa" :class="dark ? 'fa-sun-o' : 'fa-moon-o'"></i>
+            </button>
+
+            {% if user.is_authenticated %}
+
+                <a href="/dashboard"
+                   class="btn btn-ghost flex items-center space-x-2 text-black dark:text-gray-300 hover:text-indigo-600 font-medium"
+                   title="Dashboard">
+                    <i class="fa fa-bolt"></i>
+                    <span class="hidden sm:inline">Dashboard</span>
+                </a>
+          
+                <!-- Profile with icon + text -->
+                <a href="/profile"
+                   class="btn btn-ghost flex items-center space-x-2 text-black dark:text-gray-300 hover:text-indigo-600 font-medium"
+                   title="Profile">
+                    <i class="fa fa-user"></i>
+                    <span class="hidden sm:inline">Profile</span>
+                </a>
+
+                <!-- Logout icon only, no btn color -->
+                <a href="/logout" class="btn btn-ghost btn-circle text-black dark:text-gray-300 hover:text-red-600"
+                   title="Logout">
+                    <i class="fa fa-sign-out"></i>
+                    <span class="hidden sm:inline">Logout</span>
+                </a>
+
+            {% else %}
+                <!-- Guest Links -->
+                <a href="{% url 'pricing' %}"
+                   class="btn btn-ghost text-black dark:text-gray-300 hover:text-indigo-600 font-medium">Pricing</a>
+                <a href="{% url 'contactus' %}"
+                   class="btn btn-ghost text-black dark:text-gray-300 hover:text-indigo-600 font-medium">Contact Us</a>
+                <a href="{% url 'login' %}"
+                   class="btn btn-ghost text-black dark:text-gray-300 hover:text-indigo-600 font-medium">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-primary px-4 py-2 text-sm font-medium">Sign Up</a>
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
+
+
+<main>{% block main %}{% endblock %}</main>
+<footer>{% block footer %}{% endblock %}</footer>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('themeSwitcher', () => ({
+            dark: false,
+            init() {
+                const stored = localStorage.getItem('theme');
+                this.dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                // Sync <html> class (in case Alpine starts after render)
+                document.documentElement.setAttribute('data-theme', this.dark ? 'dark' : 'light');
+
+                // Watch for changes and persist
+                this.$watch('dark', (val) => {
+                    localStorage.setItem('theme', val ? 'dark' : 'light');
+                    document.documentElement.setAttribute('data-theme', val ? 'dark' : 'light');
+
+                });
+            }
+        }));
+    });
+</script>
+
+</body>
+</html>

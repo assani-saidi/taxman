@@ -1,0 +1,184 @@
+[
+  {
+    "model": "zimra.region",
+    "pk": 1,
+    "fields": {
+      "name": "Region 1 Large Clients Office"
+    }
+  },
+  {
+    "model": "zimra.region",
+    "pk": 2,
+    "fields": {
+      "name": "Region 1 Medium Clients Office"
+    }
+  },
+  {
+    "model": "zimra.region",
+    "pk": 3,
+    "fields": {
+      "name": "Region 1 Small Clients Office"
+    }
+  },
+  {
+    "model": "zimra.region",
+    "pk": 4,
+    "fields": {
+      "name": "Region 2"
+    }
+  },
+  {
+    "model": "zimra.region",
+    "pk": 5,
+    "fields": {
+      "name": "Region 3"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 1,
+    "fields": {
+      "name": "Beitbridge"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 2,
+    "fields": {
+      "name": "Bindura"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 3,
+    "fields": {
+      "name": "Bulawayo Mhlahlahdlela"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 4,
+    "fields": {
+      "name": "Chinhoyi"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 5,
+    "fields": {
+      "name": "Chipinge"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 6,
+    "fields": {
+      "name": "Chiredzi"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 7,
+    "fields": {
+      "name": "Gwanda"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 8,
+    "fields": {
+      "name": "Gweru"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 9,
+    "fields": {
+      "name": "Hwange"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 10,
+    "fields": {
+      "name": "Kadoma"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 11,
+    "fields": {
+      "name": "Kariba"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 12,
+    "fields": {
+      "name": "Kwekwe"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 13,
+    "fields": {
+      "name": "LCO Kurima"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 14,
+    "fields": {
+      "name": "Marondera"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 15,
+    "fields": {
+      "name": "Masvingo"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 16,
+    "fields": {
+      "name": "MCO Kurima"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 17,
+    "fields": {
+      "name": "Mutare"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 18,
+    "fields": {
+      "name": "Rusape"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 19,
+    "fields": {
+      "name": "SCO Kurima"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 20,
+    "fields": {
+      "name": "Victoria Falls Town Office"
+    }
+  },
+  {
+    "model": "zimra.station",
+    "pk": 21,
+    "fields": {
+      "name": "Zvishavane"
+    }
+  }
+]

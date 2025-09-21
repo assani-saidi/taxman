@@ -1,0 +1,110 @@
+{% extends "app/main.html" %}
+
+{% block main %}
+<div class="container mx-auto px-6 py-10 space-y-6">
+
+    <!-- Page Header -->
+    <section class="mb-8">
+        <h1 class="text-4xl font-extrabold text-primary dark:text-primary-content">
+            ZIMRA API Device Information
+        </h1>
+        <p class="text-base-content dark:text-base-content/80 mt-2">
+            Details fetched from your ZIMRA configuration.
+        </p>
+    </section>
+
+    {% if config.zimra_api_device_information %}
+
+    <div class="space-y-6">
+
+        <!-- General Info Card -->
+        <div class="card bg-base-100 dark:bg-base-200 shadow-md border border-base-300 dark:border-base-400">
+            <div class="card-body">
+                <h2 class="card-title">General Info</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                    <p><span class="font-semibold">Taxpayer Name:</span> {{ config.zimra_api_device_information.taxPayerName }}</p>
+                    <p><span class="font-semibold">TIN:</span> {{ config.zimra_api_device_information.taxPayerTIN }}</p>
+                    <p><span class="font-semibold">VAT Number:</span> {{ config.zimra_api_device_information.vatNumber }}</p>
+                    <p><span class="font-semibold">Device Serial No:</span> {{ config.zimra_api_device_information.deviceSerialNo }}</p>
+                    <p><span class="font-semibold">Operating Mode:</span> {{ config.zimra_api_device_information.deviceOperatingMode }}</p>
+                    <p><span class="font-semibold">Certificate Valid Till:</span> {{ config.zimra_api_device_information.certificateValidTill }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Branch Info Card -->
+        <div class="card bg-base-100 dark:bg-base-200 shadow-md border border-base-300 dark:border-base-400">
+            <div class="card-body">
+                <h2 class="card-title">Branch Info</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                    <p><span class="font-semibold">Branch Name:</span> {{ config.zimra_api_device_information.deviceBranchName }}</p>
+                    <p><span class="font-semibold">Street:</span> {{ config.zimra_api_device_information.deviceBranchAddress.street }}</p>
+                    <p><span class="font-semibold">City:</span> {{ config.zimra_api_device_information.deviceBranchAddress.city }}</p>
+                    <p><span class="font-semibold">Province:</span> {{ config.zimra_api_device_information.deviceBranchAddress.province }}</p>
+                    <p><span class="font-semibold">House No:</span> {{ config.zimra_api_device_information.deviceBranchAddress.houseNo }}</p>
+                    <p><span class="font-semibold">Phone:</span> {{ config.zimra_api_device_information.deviceBranchContacts.phoneNo }}</p>
+                    <p><span class="font-semibold">Email:</span> {{ config.zimra_api_device_information.deviceBranchContacts.email }}</p>
+                </div>
+            </div>
+        </div>
+
+         <!-- Status Info Card -->
+        {% if config.zimra_fiscal_day_information %}
+        <div class="card bg-base-100 dark:bg-base-200 shadow-md border border-base-300 dark:border-base-400">
+            <div class="card-body">
+                <h2 class="card-title">Fiscal Day Info</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                    <p><span class="font-semibold">Fiscal Day Status:</span> {{ config.zimra_fiscal_day_information.fiscalDayStatus }}</p>
+                    <p><span class="font-semibold">Fiscal Day No:</span> {{ config.zimra_fiscal_day_information.lastFiscalDayNo }}</p>
+                    <p><span class="font-semibold">Receipt Global No:</span> {{ config.zimra_fiscal_day_information.lastReceiptGlobalNo }}</p>
+                    <p><span class="font-semibold">Fiscal Day Closed On:</span> {{ config.zimra_fiscal_day_information.fiscalDayClosed }}</p>
+                    <p><span class="font-semibold">Reconciliation Mode:</span> {{ config.zimra_fiscal_day_information.fiscalDayReconciliationMode }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Applicable Taxes Card -->
+        <div class="card bg-base-100 dark:bg-base-200 shadow-md border border-base-300 dark:border-base-400">
+    <div class="card-body">
+        <h2 class="card-title">Applicable Taxes</h2>
+        <ul class="mt-2 space-y-2">
+            {% for tax in config.zimra_api_device_information.applicableTaxes %}
+            <li class="badge badge-outline badge-primary py-2 px-3 w-full flex justify-between">
+                <span>{{ tax.taxName }}</span>
+                <span>
+                    {% if tax.taxPercent %}{{ tax.taxPercent }}%{% else %}N/A{% endif %}
+                    <span class="text-xs text-base-content/60">
+                        {% if tax.validFrom %}({{ tax.validFrom|date:"Y-m-d" }}){% endif %}
+                    </span>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+        <!-- Other Info Card -->
+        <div class="card bg-base-100 dark:bg-base-200 shadow-md border border-base-300 dark:border-base-400">
+            <div class="card-body">
+                <h2 class="card-title">Other Info</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                    <p><span class="font-semibold">Day End Notification Hrs:</span> {{ config.zimra_api_device_information.taxpayerDayEndNotificationHrs }}</p>
+                    <p><span class="font-semibold">QR URL:</span>
+                        <a href="{{ config.zimra_api_device_information.qrUrl }}" target="_blank"
+                           class="text-primary dark:text-primary-content underline break-words">
+                            {{ config.zimra_api_device_information.qrUrl }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% else %}
+        <p class="text-base-content dark:text-base-content/60">No device information available.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

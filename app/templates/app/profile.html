@@ -1,0 +1,37 @@
+{% extends "app/main.html" %}
+
+{% block main %}
+    <div class="min-h-screen py-12 px-6 bg-base-200 flex justify-center">
+        <div class="w-full max-w-2xl bg-base-100 rounded-2xl shadow-lg p-10 space-y-8">
+
+            <!-- Header -->
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+                    {{ user.get_full_name }}
+                </h1>
+                <div class="space-x-2">
+                    <a href="/dashboard" class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-home mr-1"></i> Dashboard
+                    </a>
+                    <a href="/edit-profile" class="btn btn-outline-success btn-sm">
+                        <i class="fa fa-edit mr-1"></i> Edit Profile
+                    </a>
+                    <a href="/logout" class="btn btn-outline-error btn-sm">
+                        <i class="fa fa-sign-out mr-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+
+            <!-- User Info -->
+            <div class="grid grid-cols-1 gap-4 text-base-content dark:text-neutral-content">
+                <div class="p-5 bg-base-200 rounded-lg">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Company:</strong> {{ user.organisation.name }}</p>
+                    <p><strong>Tax Authority:</strong> {{ user.organisation.connectedtax.connector.name }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

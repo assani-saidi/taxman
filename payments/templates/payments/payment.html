@@ -1,0 +1,130 @@
+{% extends "app/main.html" %}
+
+{% block main %}
+<div class="px-4 rounded-lg" style="margin-right: 330px !important; margin-left: 330px !important">
+    <div class="min-h-screen bg-base-200 py-16 px-4 flex flex-col items-center"
+         x-data="{
+            phoneNumber: '',
+            errorDismissed: false,
+            isLoading: false,
+            formatPhone() {
+                let cleaned = this.phoneNumber.replace(/\D/g, '');
+                cleaned = cleaned.replace(/^0+/, '');
+                if (cleaned.length > 9) {
+                    cleaned = cleaned.substring(0, 9);
+                }
+                this.phoneNumber = cleaned;
+            },
+            getFullPhone() {
+                return '263' + this.phoneNumber;
+            },
+            isValidPhone() {
+                return this.phoneNumber.length === 9;
+            }
+         }">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2 text-primary">Complete Payment</h1>
+            <p class="text-base-content/70">Enter your phone number to pay via EcoCash</p>
+        </div>
+
+        <!-- Error Messages -->
+        {% if messages %}
+        <div class="alert alert-error mb-6 max-w-sm w-full" x-show="!errorDismissed">
+            <svg @click="errorDismissed = true" xmlns="http://www.w3.org/2000/svg"
+                 class="stroke-current shrink-0 h-5 w-5 cursor-pointer" fill="none"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span class="text-sm">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </span>
+        </div>
+        {% endif %}
+
+        <!-- Payment Form Card -->
+        <div class="card w-full max-w-sm bg-base-100 shadow-xl">
+            <div class="card-body p-6">
+
+                <!-- Plan Info -->
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-primary mb-1">{{ payment_plan.name }}</h2>
+                    <div class="text-3xl font-bold text-primary">${{ payment_plan.amount }}</div>
+                    <div class="text-sm text-base-content/70 capitalize">{{ payment_plan.period }} plan</div>
+                </div>
+
+                    <form method="post" @submit="isLoading = true">
+                        {% csrf_token %}
+
+                        <!-- Phone Number Input -->
+                        <div class="form-control w-full mb-3">
+                            <label class="label pb-1">
+                                <span class="label-text text-sm font-medium">Phone Number</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <span class="text-base-content/60 text-sm">+263</span>
+                                </div>
+                                <input
+                                    type="tel"
+                                    name="phone_number"
+                                    x-model="phoneNumber"
+                                    @input="formatPhone()"
+                                    placeholder="771234567"
+                                    class="input input-bordered input-sm w-full pl-12"
+                                    :class="{ 'input-error': phoneNumber.length > 0 && !isValidPhone() }"
+                                    required
+                                    maxlength="9"
+                                >
+                            </div>
+                            <label class="label pt-1">
+                                <span class="label-text-alt text-xs" :class="isValidPhone() ? 'text-success' : phoneNumber.length > 0 ? 'text-error' : 'text-base-content/60'">
+                                    <span x-show="phoneNumber.length === 0">
+                                        Enter your 9-digit EcoCash number
+                                    </span>
+                                    <span x-show="phoneNumber.length > 0 && !isValidPhone()">
+                                        Must be exactly 9 digits
+                                    </span>
+                                    <span x-show="isValidPhone()">
+                                        ✓ <span x-text="getFullPhone()"></span>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Instructions -->
+                        <div class="bg-info/10 rounded-lg p-3 mb-4">
+                            <div class="text-xs text-center">
+                                <p class="font-medium text-info mb-1">💡 You'll receive an EcoCash prompt</p>
+                                <p class="text-base-content/70">Enter your PIN to complete the payment</p>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-sm w-full"
+                            :disabled="!isValidPhone() || isLoading"
+                            :class="{ 'loading': isLoading }"
+                        >
+                            <span x-show="!isLoading">
+                                Pay ${{ payment_plan.amount }}
+                            </span>
+                            <span x-show="isLoading">Processing...</span>
+                        </button>
+
+                        <!-- Back Link -->
+                        <div class="text-center mt-3">
+                            <a href="/payments/" class="link link-primary text-xs">← Back to plans</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

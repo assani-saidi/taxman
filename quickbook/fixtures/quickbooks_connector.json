@@ -1,0 +1,9 @@
+[
+  {
+    "model": "quickbook.quickbookconnector",
+    "pk": 1,
+    "fields": {
+      "name": "quickbooks"
+    }
+  }
+]

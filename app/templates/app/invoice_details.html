@@ -1,0 +1,152 @@
+{% extends "app/main.html" %}
+{% load json_extras %}
+
+{% block main %}
+<div class="min-h-screen py-12 px-6 bg-base-200 flex justify-center">
+    <div class="w-full max-w-4xl bg-base-100 rounded-2xl shadow-lg p-10 space-y-8">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b pb-4">
+            <h1 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+                Invoice Details
+            </h1>
+        </div>
+
+        <!-- Invoice Form -->
+        <form method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% csrf_token %}
+            {% for field in invoice_form %}
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-medium">{{ field.label }}</span>
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                <p class="text-error text-sm">{{ field.errors }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </form>
+
+        <!-- Footer -->
+        <div class="flex border-t py-4 flex-row items-center justify-between space-x-4">
+            <!-- Qr Code -->
+            <div>
+                {% if invoice.qr_code %}
+                    <img src="{{ invoice.qr_code }}" alt="QR Code" class="rounded-sm">
+                    <a href="{{ invoice.qr_code_url }}" target="_blank" class="block mt-4 text-sm text-blue-600">
+                        Verify Invoice
+                    </a>
+                {% else %}
+                    <p class="text-sm text-gray-500">No QR Code available.</p>
+                {% endif %}
+            </div>
+            <!-- Footer Button -->
+            <div class="pt-4 text-right">
+                <a href="/dashboard" class="btn btn-success">
+                    <i class="fa fa-check-circle mr-2"></i> Ok, got it
+                </a>
+            </div>
+        </div>
+
+        <!-- Validation Errors Table (Collapsible) -->
+        {% if invoice.tax_success_data.validationErrors %}
+        <div x-data="{ open: false }" class="mt-8 border border-base-300 rounded-box">
+            <!-- Toggle Header -->
+            <button @click="open = !open"
+                    class="w-full flex justify-between items-center p-4 font-bold bg-base-200 dark:bg-base-300 rounded-t-lg">
+                <span>Validation Errors ({{ invoice.tax_success_data.validationErrors|length }})</span>
+                <i class="fa fa-chevron-down transition-transform duration-300" :class="{ 'rotate-180': open }"></i>
+            </button>
+
+            <!-- Table -->
+            <div x-show="open" x-transition class="overflow-x-auto p-4 bg-base-100 dark:bg-base-200 rounded-b-lg">
+                <table class="table table-zebra w-full border border-base-300 dark:border-base-400">
+                    <thead class="bg-base-200 dark:bg-base-300">
+                    <tr>
+                        <th class="text-left text-base-content dark:text-base-content">Error Code</th>
+                        <th class="text-left text-base-content dark:text-base-content">Color</th>
+                        <th class="text-left text-base-content dark:text-base-content">Detail</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for error in invoice.tax_success_data.validationErrors %}
+                    <tr>
+                        <td class="font-medium">{{ error.validationErrorCode }}</td>
+                        <td>
+                                <span class="badge
+                                    {% if error.validationErrorColor == 'Red' %}badge-error
+                                    {% elif error.validationErrorColor == 'Yellow' %}badge-warning
+                                    {% elif error.validationErrorColor == 'Gray' %}badge-ghost
+                                    {% else %}badge-info{% endif %}">
+                                    {{ error.validationErrorColor }}
+                                </span>
+                        </td>
+                        <td>
+                            {% with invoice_errors as all_errors %}
+                            {% for ve in all_errors %}
+                            {% if ve.code == error.validationErrorCode %}
+                            {{ ve.text }}
+                            {% endif %}
+                            {% endfor %}
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Legend / Key -->
+                <div class="mt-6 p-4 border border-base-300 rounded-lg bg-base-200 dark:bg-base-300">
+                    <h3 class="text-lg font-semibold mb-2">Validation Error Color Key</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex items-start space-x-2">
+                            <span class="badge badge-ghost">Gray</span>
+                            <p class="text-sm">
+                                Received receipt violates receipt chain and makes a gap in receipt chain (previous
+                                receipt is missing). Such receipt will be revalidated with the next receipts. Fiscal day
+                                will not close automatically if it has at least one “Gray” receipt.
+                            </p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <span class="badge badge-warning">Yellow</span>
+                            <p class="text-sm">
+                                Minor validation errors. Fiscal day can be closed automatically if it contains only
+                                “Yellow” validation errors.
+                            </p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <span class="badge badge-error">Red</span>
+                            <p class="text-sm">
+                                Major validation errors. Fiscal day cannot be closed automatically if it has at least
+                                one “Red” receipt.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Sent Data Table (Collapsible) -->
+        {% if invoice.sent_data %}
+        <div x-data="{ open: false }" class="mt-6 border border-base-300 rounded-box">
+            <!-- Toggle Header -->
+            <button @click="open = !open"
+                    class="w-full flex justify-between items-center p-4 font-bold bg-base-200 dark:bg-base-300 rounded-t-lg">
+                <span>Sent Data</span>
+                <i class="fa fa-chevron-down transition-transform duration-300" :class="{ 'rotate-180': open }"></i>
+            </button>
+
+            <!-- JSON Content -->
+            <div x-show="open" x-transition class="p-4 bg-base-100 dark:bg-base-200 rounded-b-lg">
+        <pre class="whitespace-pre-wrap break-words text-sm">
+{{ invoice.sent_data|to_pretty_json }}
+        </pre>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

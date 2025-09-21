@@ -1,0 +1,32 @@
+[
+  {
+    "model": "app.connector",
+    "pk": 1,
+    "fields": {
+      "name": "Odoo"
+    }
+  },
+  {
+    "model": "app.connector",
+    "pk": 2,
+    "fields": {
+      "name": "Quickbooks",
+      "app_model": 13,
+      "app_id": 1
+    }
+  },
+  {
+    "model": "app.taxconnector",
+    "pk": 1,
+    "fields": {
+      "name": "ZRA"
+    }
+  },
+  {
+    "model": "app.taxconnector",
+    "pk": 2,
+    "fields": {
+      "name": "Zimra"
+    }
+  }
+]

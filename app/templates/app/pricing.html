@@ -1,0 +1,88 @@
+{% extends "app/main.html" %}
+
+{% block main %}
+    <div class="min-h-screen bg-base-200 py-16 px-4 flex flex-col items-center" x-data="{ errorDismissed: false }">
+
+        <h1 class="text-5xl font-extrabold mb-12 text-primary text-center">Pricing Plans</h1>
+
+        {% if messages %}
+        <div class="alert alert-error" x-show="!errorDismissed">
+            <svg @click="errorDismissed = true" xmlns="http://www.w3.org/2000/svg"
+                 class="stroke-current shrink-0 h-6 w-6 cursor-pointer" fill="none"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                  </span>
+        </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl w-full">
+
+            {% for payment in payments %}
+            <div class="rounded-2xl bg-base-100 shadow-lg p-10 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-3xl font-semibold mb-4 text-primary">{{ payment.name }}</h2>
+                    <p class="text-sm text-base-content mb-8">{{ payment.description }}</p>
+
+                    <div class="flex items-baseline text-primary mb-8">
+                        <span class="text-6xl font-extrabold">${{ payment.amount }}</span>
+                        <span class="ml-1 text-xl font-medium self-end">{{ payment.payment_period }}</span>
+                    </div>
+                    <ul class="space-y-4 text-base-content mb-8">
+                    {% for included in payment.includes %}
+                        <li class="flex items-center">
+                            <svg class="w-6 h-6 text-success mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <path d="M5 13l4 4L19 7"/>
+                            </svg>
+                            {{included}}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+                <a href="/payments/pay/{{payment.id}}"
+                   class="block text-center bg-primary hover:bg-primary-focus text-base-100 font-semibold rounded-lg py-4 transition duration-300">
+                    Get Started
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <!-- Extra Services Section -->
+        <section class="max-w-4xl w-full rounded-2xl shadow-lg mt-16 p-10 bg-base-100">
+            <h3 class="text-2xl font-semibold mb-8 text-primary text-center">Extra Services</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left table-auto border-collapse text-base-content">
+                    <thead>
+                    <tr>
+                        <th class="border-b border-base-content/30 pb-3 px-4">Service</th>
+                        <th class="border-b border-base-content/30 pb-3 px-4 text-center">SME Price (USD/year)</th>
+                        <th class="border-b border-base-content/30 pb-3 px-4 text-center">Corporate Price (USD/year)
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="hover:bg-base-200 transition-colors">
+                        <td class="border-b border-base-content/20 py-3 px-4">Data Back Up (per month payable yearly)
+                        </td>
+                        <td class="border-b border-base-content/20 py-3 px-4 text-center">$5</td>
+                        <td class="border-b border-base-content/20 py-3 px-4 text-center">$5</td>
+                    </tr>
+                    <tr class="hover:bg-base-200 transition-colors">
+                        <td class="border-b border-base-content/20 py-3 px-4">Template Configuration</td>
+                        <td class="border-b border-base-content/20 py-3 px-4 text-center" colspan="2">Contact Us</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+{% endblock %}
