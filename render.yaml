@@ -1,0 +1,27 @@
+services:
+  - type: psql
+    name: taxman-db
+    plan: free
+    databaseName: taxman
+    user: taxman
+
+  - type: web
+    name: taxman-web
+    plan: free
+    runtime: python
+    pythonVersion: "3.11.4"
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --no-input
+      python manage.py migrate
+    startCommand: "gunicorn taxman.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromService:
+          type: psql
+          name: taxman-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
