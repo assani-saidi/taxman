@@ -23,7 +23,7 @@
 4.  Set the **Region** (ideally the same as your database).
 5.  The **Branch** should be your main development branch (e.g., `main` or `master`).
 6.  Set the **Runtime** to `Python`.
-7.  Set the **Build Command** to: `pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate`
+7.  Set the **Build Command** to: `pip install -r requirements.txt && rm static/taxman/input.css && python manage.py collectstatic --no-input && python manage.py migrate`
 8.  Set the **Start Command** to: `gunicorn taxman.wsgi:application`
 9.  Select an **Instance Type**. The `Free` plan is fine for now.
 10. Go to the **"Environment"** section and click **"Add Environment Variable"** to create the following variables:
